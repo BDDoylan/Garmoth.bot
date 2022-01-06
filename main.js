@@ -18,19 +18,19 @@ require("dotenv").config();
 
 // Storage of roles and their IDs.
 let allIDs = [
-  ["EU", "928089549089931284"],
-  ["NA", "928089670359842828"],
-  ["RU", "928089700768575529"],
-  ["JP", "928089751767105606"],
-  ["KR", "928089768351379466"],
-  ["SEA", "928089838832484352"],
-  ["TW", "928089878347022376"],
-  ["TH", "928089931895693342"],
-  ["SA", "928089977038995526"],
-  ["MENA", "928090064758640650"],
-  ["CONSOLE_EU", "928090175433769041"],
-  ["CONSOLE_NA", "928090277867049010"],
-  ["CONSOLE_ASIA", "928090398679760989"],
+  ["EU", process.env.EU],
+  ["NA", process.env.NA],
+  ["RU", process.env.RU],
+  ["JP", process.env.JP],
+  ["KR", process.env.KR],
+  ["SEA", process.env.SEA],
+  ["TW", process.env.TW],
+  ["TH", process.env.TH],
+  ["SA", process.env.SA],
+  ["MENA", process.env.MENA],
+  ["CONSOLE_EU", process.env.CONSOLE_EU],
+  ["CONSOLE_NA", process.env.CONSOLE_NA],
+  ["CONSOLE_ASIA", process.env.CONSOLE_ASIA],
 ];
 
 // Function that returns the discord user's region.
@@ -56,7 +56,7 @@ const findRoleID = (nameOfRole) => {
 // Function that updates all users region role.
 const allMembersRoleUpdate = async () => {
   // Put desired guild ID in string.
-  const guild = client.guilds.cache.get("928035405461331979");
+  const guild = client.guilds.cache.get(process.env.SERVER_ID);
 
   (await guild.members.fetch()).forEach(async (member) => {
     if (member.user.bot === false) {
@@ -80,7 +80,7 @@ const getCoupon = async () => {
 
 // Cron job that executes function every 30 minutes.
 let job = new cron.CronJob("*/30 * * * *", () => {
-  client.channels.get("928571417358909510").send(getCoupon());
+  client.channels.get(process.env.CHANNEL_ID).send(getCoupon());
 });
 
 // Event handler for when the bot initially activates.
