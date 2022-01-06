@@ -12,7 +12,9 @@ const cron = require("cron");
 const client = new Discord.Client({
   intents: ["GUILD_MEMBERS", "GUILD_MESSAGES", "GUILDS"],
 });
-const token = "OTI4MDQyMDYwMTYwODMxNTY5.YdTAhQ.KZpxpoDhlZ-byt70RdVYFxYQaRM";
+
+// Accessing .env
+require("dotenv").config();
 
 // Storage of roles and their IDs.
 let allIDs = [
@@ -118,4 +120,4 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-client.login(token);
+client.login(process.env.TOKEN);
