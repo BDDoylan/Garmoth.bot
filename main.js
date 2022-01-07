@@ -74,13 +74,24 @@ const allMembersRoleUpdate = async () => {
 
 // Function that returns coupon code.
 const getCoupon = async () => {
-  const newCoupon = await axios.get(``).then((res) => res.data.coupon);
-  return newCoupon.toUpperCase();
+  let arrOfCodes = [];
+  await axios
+    .get(`https://garmoth.com/api/getApiCouponSuggestions`)
+    .then((res) => {
+      res.data.forEach((data) => {
+        arrOfCodes.push(data.code);
+      });
+    });
+  //console.log(arrOfCodes);
+  return arrOfCodes;
 };
 
 // Cron job that executes function every 30 minutes.
-let job = new cron.CronJob("*/30 * * * *", () => {
-  client.channels.get(process.env.CHANNEL_ID).send(getCoupon());
+let job = new cron.CronJob("*/30 * * * *", async () => {
+  let codes = await getCoupon();
+  codes.forEach((code) => {
+    client.channels.cache.get(process.env.CHANNEL_ID).send(code);
+  });
 });
 
 // Event handler for when the bot initially activates.
@@ -110,13 +121,13 @@ client.on("messageCreate", async (message) => {
   // Put desired keyword for bot to execute function that starts cron job.
   if (message.content === "!start") {
     job.start();
-    message.channel.send("Coupon check reminder: Status <active>");
+    message.channel.send("Coupon check reminder status: <ACTIVE>");
   }
 
   // Put desired keyword for bot to execute function that stops cron job.
   if (message.content === "!stop") {
     job.stop();
-    message.channel.send("Coupon check reminder: Status <inactive>");
+    message.channel.send("Coupon check reminder status: <INACTIVE>");
   }
 });
 
