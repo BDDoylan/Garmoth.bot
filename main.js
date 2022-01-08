@@ -63,7 +63,7 @@ const allMembersRoleUpdate = async () => {
   const guild = client.guilds.cache.get(process.env.SERVER_ID);
 
   (await guild.members.fetch()).forEach(async (member) => {
-    await sleep(200)
+    // await sleep(200)
     if (member.user.bot === false) {
       let nameOfRole = await getRegion(member.user.id);
 
