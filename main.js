@@ -53,12 +53,17 @@ const findRoleID = (nameOfRole) => {
   return roleID;
 };
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 // Function that updates all users region role.
 const allMembersRoleUpdate = async () => {
   // Put desired guild ID in string.
   const guild = client.guilds.cache.get(process.env.SERVER_ID);
 
   (await guild.members.fetch()).forEach(async (member) => {
+    await sleep(200)
     if (member.user.bot === false) {
       let nameOfRole = await getRegion(member.user.id);
 
@@ -67,7 +72,9 @@ const allMembersRoleUpdate = async () => {
       let findRole =
         member.guild.roles.cache.find((role) => role.name === nameOfRole) ||
         (await member.guild.roles.fetch(roleID));
-      member.roles.add(findRole);
+      try {
+        member.roles.add(findRole);
+      } catch (e) {}
     }
   });
 };
@@ -104,10 +111,10 @@ client.on("guildMemberAdd", async (member) => {
   let nameOfRole = await getRegion(member.user.id);
   let roleID = findRoleID(nameOfRole);
 
-  let findRole =
-    member.guild.roles.cache.find((role) => role.name === nameOfRole) ||
-    (await member.guild.roles.fetch(roleID));
-  member.roles.add(findRole);
+  let findRole = member.guild.roles.cache.find((role) => role.name === nameOfRole) || (await member.guild.roles.fetch(roleID));
+  try {
+    member.roles.add(findRole);
+  } catch (e) {}
 });
 
 // Event handler for when a message is created in the server.

@@ -1,2 +1,5 @@
 /node_modules
 .env
+.idea/vcs.xml
+.idea/modules.xml
+.idea/Garmoth.bot.iml
