@@ -2,7 +2,7 @@
 Garmoth.bot
 
 Author: Doylan Mihov
-Version: 1.1.0
+Version: 1.1.1
 Date: 1/9/22
 */
 import db from "./db.js";
@@ -40,9 +40,10 @@ let allIDs = [
   ["CONSOLE_NA", process.env.CONSOLE_NA],
   ["CONSOLE_ASIA", process.env.CONSOLE_ASIA],
 ];
-let region
+
+let region;
 // Function that returns the discord user's region.
-const getRegion = async (id) => {
+const getRegion = (id) => {
   // const userRegion = await axios
   //   .get(`https://garmoth.com/api/GetUserInfo/${id}`)
   //   .then((res) => res.data.region);
@@ -79,7 +80,7 @@ const findRoleID = (nameOfRole) => {
 // Function that slows down async functions.
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
+};
 
 // Function that updates all users region role.
 const allMembersRoleUpdate = async () => {
