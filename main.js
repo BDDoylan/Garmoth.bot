@@ -40,7 +40,7 @@ let allIDs = [
   ["CONSOLE_NA", process.env.CONSOLE_NA],
   ["CONSOLE_ASIA", process.env.CONSOLE_ASIA],
 ];
-
+let region
 // Function that returns the discord user's region.
 const getRegion = async (id) => {
   // const userRegion = await axios
@@ -77,7 +77,7 @@ const findRoleID = (nameOfRole) => {
 };
 
 // Function that slows down async functions.
-function sleep(ms) {
+const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
